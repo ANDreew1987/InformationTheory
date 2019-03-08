@@ -1,3 +1,4 @@
 /.idea
 /.vs
-/bin
+/bin/*
+!/bin/RLE_msvc.exe

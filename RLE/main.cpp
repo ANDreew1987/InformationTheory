@@ -27,7 +27,7 @@ const char help[] =
     "  -u: unpack\n";
 
 const char rleMagic2 = 0b11000000;
-//const uint8_t rleMagic1 = 0b10000000;
+//const char rleMagic1 = 0b10000000;
 const char rleMagic = rleMagic2;
 const char maxCount = (~rleMagic);
 
