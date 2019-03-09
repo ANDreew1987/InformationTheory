@@ -3,5 +3,9 @@
 /bin/*
 /lib/*
 !/bin/RLE_msvc.exe
+!/bin/RunRLE_Decode.bat
+!/bin/RunRLE_Encode.bat
+!/bin/Huffman_msvc.exe
+!/bin/RunHuffman.bat
 !/bin/DCT_msvc.exe
 !/bin/RunDCT.bat

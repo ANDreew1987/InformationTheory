@@ -42,4 +42,5 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_SOURCE_DIR}/lib)
 
 add_subdirectory(RLE)
+add_subdirectory(Huffman)
 add_subdirectory(DCT)

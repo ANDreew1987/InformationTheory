@@ -42,6 +42,7 @@ inline void WriteChar(
     if (!out.write(&ch, 1)) {
         throw runtime_error(errWrite);
     }
+    cout << std::hex << (ch &0xFF) << " ";
 }
 
 // Функция записывает байт-счётчик (если необходимо) и символ в поток
@@ -62,6 +63,7 @@ void RLE_Encode(
     ifstream &in,
     ofstream &out) noexcept(false)
 {
+    cout << "Encoded data:" << endl;
     char data, prevData;
     // Считываем байт
     if (!in.read(&data, 1)) {
@@ -109,6 +111,7 @@ void RLE_Encode(
     // Успешно достигли конца входного файла
     // Записываем последний байт
     WriteChar(out, data, count);
+    cout << endl;
 }
 
 // Функция декодирует данные из входного потока в выходной
@@ -116,6 +119,7 @@ void RLE_Decode(
     ifstream &in,
     ofstream &out) noexcept(false)
 {
+    cout << "Decoded data:" << endl;
     char data;
     // Счётчик
     uint8_t count = 1;
@@ -145,6 +149,19 @@ void RLE_Decode(
     {
         throw runtime_error(errRead);
     }
+    cout << endl;
+}
+
+inline void PrintInputData(
+	ifstream &in) noexcept(false)
+{
+	char ch;
+	while (in.read(&ch, 1)) {
+		cout << std::hex << (ch & 0xFF) << " ";
+	}
+	in.clear();
+	in.seekg(0);
+	cout << endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -194,6 +211,10 @@ int main(int argc, char *argv[]) {
             // Не удалось открыть выходной файл
             throw runtime_error(errOpenOutputFile);
         }
+
+        // Выводим входные данные
+		cout << "Input data:" << endl;
+		PrintInputData(inputFile);
 
         // Запускаем обработку
         rleFunc(inputFile, outputFile);
