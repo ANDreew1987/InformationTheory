@@ -1,4 +1,7 @@
 /.idea
 /.vs
 /bin/*
+/lib/*
 !/bin/RLE_msvc.exe
+!/bin/DCT_msvc.exe
+!/bin/RunDCT.bat

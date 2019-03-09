@@ -189,7 +189,7 @@ int main(int argc, char *argv[]) {
             // Неверный аргумент
             throw runtime_error(help);
         }
-        ofstream outputFile(argv[5], std::ios::binary);
+        outputFile.open(argv[5], std::ios::binary);
         if (!outputFile.is_open()) {
             // Не удалось открыть выходной файл
             throw runtime_error(errOpenOutputFile);
