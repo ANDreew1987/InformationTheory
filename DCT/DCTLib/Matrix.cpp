@@ -1,10 +1,19 @@
 #include "Matrix.hpp"
 #include <cmath>
+#include <limits>
+
+using std::numeric_limits;
 
 using Matrix8x8f = array<array<float, 8>, 8>;
 
 const float rsqrt_8 = 1.0f / sqrtf(8.0f);
 const float Pi = 3.141593f;
+
+template<typename DST, typename SRC>
+inline DST Threshold(const SRC &src) {
+	return DST((src > numeric_limits<DST>::max()) ? numeric_limits<DST>::max() : 
+		((src < numeric_limits<DST>::min()) ? numeric_limits<DST>::min() : src));
+}
 
 Matrix8x8f operator * (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 {
@@ -81,7 +90,7 @@ Matrix8x8ui8 Prepare(const Matrix8x8f &inputMat)
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = uint8_t(inputMat[i][j] + 128);
+			result[i][j] = Threshold<uint8_t, float>(inputMat[i][j] + 128);
 		}
 	}
 
@@ -106,7 +115,7 @@ Matrix8x8i8 Round(const Matrix8x8f &mat)
 	Matrix8x8i8 result;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = int8_t(mat[i][j] + 0.5f);
+			result[i][j] = Threshold<int8_t, float>(mat[i][j] + 0.5f);
 		}
 	}
 	return result;
@@ -124,13 +133,13 @@ Matrix8x8f ConvertTo8x8f(const T &mat)
 	return result;
 }
 
-Matrix8x8ui8 BuildQuantizationMatrix(const float quality)
+Matrix8x8ui8 BuildQuantizationMatrix(const uint8_t quality)
 {
 	Matrix8x8ui8 result;
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = uint8_t(1 + ((1 + i + j) * quality));
+			result[i][j] = Threshold<uint8_t, int>(1 + ((1 + i + j) * quality));
 		}
 	}
 

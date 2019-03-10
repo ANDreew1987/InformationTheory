@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
             throw runtime_error(help);
         }
 
-        float quality = atof(argv[2]);
+		uint8_t quality = atoi(argv[2]);
 
         if (strcmp(argv[3], optionInputMatrix) != 0) {
             // Неверный аргумент
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
             throw runtime_error(errOpenInputFile);
         }
 
-		cout << "Quality = " << fixed << quality << endl;
+		cout << "Quality = " << int(quality) << endl;
 
         Matrix8x8ui8 matrix;
         ReadMatrix(inputMatrix, matrix);
