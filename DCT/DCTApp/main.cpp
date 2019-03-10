@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
         ReadMatrix(inputMatrix, matrix);
 		cout << "Input matrix:" << endl;
 		PrintMatrix(matrix);
-		Matrix8x8i8 qMatrix = BuildQuantizationMatrix(quality);
+		Matrix8x8ui8 qMatrix = BuildQuantizationMatrix(quality);
 		cout << "Quantization matrix:" << endl;
 		PrintMatrix(qMatrix);
 		Matrix8x8i8 encodedMat = Encode(matrix, qMatrix);
