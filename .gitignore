@@ -2,6 +2,7 @@
 /.vs
 /bin/*
 /lib/*
+/data/*
 !/bin/RLE_msvc.exe
 !/bin/RunRLE_Decode.bat
 !/bin/RunRLE_Encode.bat
@@ -9,6 +10,12 @@
 !/bin/RunDCT.bat
 !/bin/PSNRTable_msvc.exe
 !/bin/BuildPSNRTable.bat
-/data/PSNR.csv
-/data/PSNR.xlsx
-/data/~$PSNR.xlsx
+!/bin/DCTCompare_msvc.exe
+!/data/00_1.bin
+!/data/00_256.bin
+!/data/FF_1.bin
+!/data/FF_256.bin
+!/data/packed_data_var4.bin
+!/data/unpacked_data_var4.bin
+!/data/input_matrix_var4.txt
+!/data/Lenna.png
