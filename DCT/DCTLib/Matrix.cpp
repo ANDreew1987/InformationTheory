@@ -68,7 +68,7 @@ Matrix8x8f Prepare(const Matrix8x8ui8 &inputMat)
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = inputMat[i][j] - 128;
+			result[i][j] = float(inputMat[i][j] - 128);
 		}
 	}
 
@@ -81,7 +81,7 @@ Matrix8x8ui8 Prepare(const Matrix8x8f &inputMat)
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = inputMat[i][j] + 128;
+			result[i][j] = uint8_t(inputMat[i][j] + 128);
 		}
 	}
 
@@ -106,7 +106,7 @@ Matrix8x8i8 Round(const Matrix8x8f &mat)
 	Matrix8x8i8 result;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = static_cast<int8_t>(mat[i][j] + 0.5f);
+			result[i][j] = int8_t(mat[i][j] + 0.5f);
 		}
 	}
 	return result;
@@ -130,7 +130,7 @@ Matrix8x8ui8 BuildQuantizationMatrix(const float quality)
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			result[i][j] = 1 + ((1 + i + j) * quality);
+			result[i][j] = uint8_t(1 + ((1 + i + j) * quality));
 		}
 	}
 
