@@ -7,3 +7,8 @@
 !/bin/RunRLE_Encode.bat
 !/bin/DCT_msvc.exe
 !/bin/RunDCT.bat
+!/bin/PSNRTable_msvc.exe
+!/bin/BuildPSNRTable.bat
+/data/PSNR.csv
+/data/PSNR.xlsx
+/data/~$PSNR.xlsx
