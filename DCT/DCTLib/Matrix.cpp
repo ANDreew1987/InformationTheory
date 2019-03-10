@@ -6,7 +6,6 @@ using Matrix8x8f = array<array<float, 8>, 8>;
 const float rsqrt_8 = 1.0f / sqrtf(8.0f);
 const float Pi = 3.141593f;
 
-// ��������� ���������
 Matrix8x8f operator * (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 {
 	Matrix8x8f result;
@@ -23,7 +22,6 @@ Matrix8x8f operator * (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 	return result;
 }
 
-// ������������ ���������
 Matrix8x8f operator ^ (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 {
 	Matrix8x8f result;
@@ -37,7 +35,6 @@ Matrix8x8f operator ^ (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 	return result;
 }
 
-// ������������ �������
 Matrix8x8f operator / (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 {
 	Matrix8x8f result;
@@ -51,7 +48,7 @@ Matrix8x8f operator / (const Matrix8x8f &mat1, const Matrix8x8f &mat2)
 	return result;
 }
 
-// ����������������
+// Transpose
 Matrix8x8f operator ~ (const Matrix8x8f &mat)
 {
 	Matrix8x8f result;
@@ -91,7 +88,6 @@ Matrix8x8ui8 Prepare(const Matrix8x8f &inputMat)
 	return result;
 }
 
-// ���������� ������� ���-�������������
 Matrix8x8f BuildDCT8x8()
 {
 	Matrix8x8f result;
@@ -105,7 +101,6 @@ Matrix8x8f BuildDCT8x8()
 	return result;
 }
 
-// ���������� ������� �����������
 Matrix8x8f BuildQuantizationMatrix(const float quality)
 {
 	Matrix8x8f result;
@@ -119,7 +114,6 @@ Matrix8x8f BuildQuantizationMatrix(const float quality)
 	return result;
 }
 
-// ���������� � ���������� ������
 Matrix8x8i8 Round(const Matrix8x8f &mat)
 {
 	Matrix8x8i8 result;
@@ -131,7 +125,6 @@ Matrix8x8i8 Round(const Matrix8x8f &mat)
 	return result;
 }
 
-// ���������� � ���������� ������
 Matrix8x8f ConvertTo8x8f(const Matrix8x8i8 &mat)
 {
 	Matrix8x8f result;
@@ -163,6 +156,7 @@ Matrix8x8ui8 Decode(const Matrix8x8i8 &inputMat, const float quality)
 	return Prepare(mat);
 }
 
+// Mean square error
 double MSE(const Matrix8x8ui8 &original, const Matrix8x8ui8 &compressed)
 {
 	double result = 0.0;
