@@ -101,19 +101,6 @@ Matrix8x8f BuildDCT8x8()
 	return result;
 }
 
-Matrix8x8f BuildQuantizationMatrix(const float quality)
-{
-	Matrix8x8f result;
-
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			result[i][j] = 1 + ((1 + i + j) * quality);
-		}
-	}
-
-	return result;
-}
-
 Matrix8x8i8 Round(const Matrix8x8f &mat)
 {
 	Matrix8x8i8 result;
@@ -136,21 +123,34 @@ Matrix8x8f ConvertTo8x8f(const Matrix8x8i8 &mat)
 	return result;
 }
 
-Matrix8x8i8 Encode(const Matrix8x8ui8 &inputMat, const float quality)
+Matrix8x8i8 BuildQuantizationMatrix(const float quality)
+{
+	Matrix8x8i8 result;
+
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			result[i][j] = 1 + ((1 + i + j) * quality);
+		}
+	}
+
+	return result;
+}
+
+Matrix8x8i8 Encode(const Matrix8x8ui8 &inputMat, const Matrix8x8i8 &q)
 {
 	Matrix8x8f mat = Prepare(inputMat);
 	Matrix8x8f dctMat = BuildDCT8x8();
 	mat = dctMat * mat * ~dctMat;
-	Matrix8x8f q = BuildQuantizationMatrix(quality);
-	mat = mat / q;
+	Matrix8x8f qf = ConvertTo8x8f(q);
+	mat = mat / qf;
 	return Round(mat);
 }
 
-Matrix8x8ui8 Decode(const Matrix8x8i8 &inputMat, const float quality)
+Matrix8x8ui8 Decode(const Matrix8x8i8 &inputMat, const Matrix8x8i8 &q)
 {
-	Matrix8x8f q = BuildQuantizationMatrix(quality);
+	Matrix8x8f qf = ConvertTo8x8f(q);
 	Matrix8x8f mat = ConvertTo8x8f(inputMat);
-	mat = mat ^ q;
+	mat = mat ^ qf;
 	Matrix8x8f dctMat = BuildDCT8x8();
 	mat = ~dctMat * mat * dctMat;
 	return Prepare(mat);
