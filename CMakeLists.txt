@@ -43,3 +43,4 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_SOURCE_DIR}/lib)
 
 add_subdirectory(RLE)
 add_subdirectory(DCT)
+add_subdirectory(Huffman)
