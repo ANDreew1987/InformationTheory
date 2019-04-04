@@ -24,7 +24,7 @@ const char errRead[]            = "Could not read data from input file";
 const char errBadData[]         = "Bad input data";
 
 const char help[] =
-    "Usage: Huffman -i [input file]";
+    "Usage: Huffman [input file]";
 
 // Частоты встречаемости символов
 using FrequencyTable = map<char, int>;
