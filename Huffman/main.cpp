@@ -30,6 +30,14 @@ const char help[] =
 using FrequencyTable = map<char, int>;
 using HuffmanQueue = priority_queue<Node*, vector<Node*>, NodeComparator>;
 
+const FrequencyTable myVariantTable = {
+        { 'a', 52 }, { 'b',  7 }, { 'c', 18 }, { 'd',  14 }, { 'e', 56 },
+        { 'f', 12 }, { 'g', 18 }, { 'h', 33 }, { 'i',  28 }, { 'j',  1 },
+        { 'k',  5 }, { 'l', 43 }, { 'm', 10 }, { 'n',  35 }, { 'o', 28 },
+        { 'p',  7 }, { 'r', 34 }, { 's', 30 }, { 't',  62 }, { 'u', 10 },
+        { 'v',  8 }, { 'w',  8 }, { 'y',  9 }, { '_', 135 }, { ',',  1 }
+};
+
 FrequencyTable BuildFrequencyTable(ifstream &in)
 {
 	FrequencyTable result;
@@ -43,14 +51,6 @@ FrequencyTable BuildFrequencyTable(ifstream &in)
 	}
 	return result;
 }
-
-const FrequencyTable myVariantTable = {
-    { 'a', 52 }, { 'b',  7 }, { 'c', 18 }, { 'd',  14 }, { 'e', 56 },
-    { 'f', 12 }, { 'g', 18 }, { 'h', 33 }, { 'i',  28 }, { 'j',  1 },
-    { 'k',  5 }, { 'l', 43 }, { 'm', 10 }, { 'n',  35 }, { 'o', 28 },
-    { 'p',  7 }, { 'r', 34 }, { 's', 30 }, { 't',  62 }, { 'u', 10 },
-    { 'v',  8 }, { 'w',  8 }, { 'y',  9 }, { '_', 135 }, { ',',  1 }
-};
 
 void PrintFrequencyTable(const FrequencyTable &tbl) {
 	for (auto t : tbl) {
@@ -74,41 +74,64 @@ Tree* BuildHuffmatTree(const FrequencyTable &tbl) {
 	return new Tree(q.top());
 }
 
+void PrintCodeTable(const HuffmanCodeTable &tbl) {
+    for(auto i: tbl){
+        cout << i.first << ": " << i.second << endl;
+    }
+}
+
+float GetCompressionCoef(
+    const FrequencyTable &inputTbl,
+    const HuffmanCodeTable &hufTbl)
+{
+    int inputBitsCount = 0;
+    for(auto i: inputTbl) {
+        inputBitsCount += i.second * 8;
+    }
+    int huffmanBitsCount = 0;
+    for(auto i: hufTbl) {
+        int freq = inputTbl.at(i.first);
+        huffmanBitsCount += freq * i.second.size();
+    }
+    return float(inputBitsCount) / float(huffmanBitsCount);
+}
+
 int main(int argc, char *argv[]) {
 
     int exitCode = EXIT_SUCCESS;
 
     ifstream inputFile;
 
-    try{
-        /*if (argc != 2) {
+    try {
+        FrequencyTable workTable;
+        if (argc == 1) {
+            workTable = myVariantTable;
+            cout << "Use default frequency table" << endl;
+        } else if (argc == 2) {
+            inputFile.open(argv[1], std::ios::binary);
+            workTable = BuildFrequencyTable(inputFile);
+            inputFile.close();
+        } else {
             // Неправильное количество аргументов
             throw runtime_error(help);
         }
 
-        inputFile.open(argv[1], std::ios::binary);
-        if (!inputFile.is_open()) {
-            // Не удалось открыть входной файл
-            throw runtime_error(errOpenInputFile);
-        }*/
-
-		//FrequencyTable ft = BuildFrequencyTable(inputFile);
-        //inputFile.close();
         cout << "Frequency table:" << endl;
-		PrintFrequencyTable(myVariantTable);
-        //PrintFrequencyTable(ft);
+		PrintFrequencyTable(workTable);
 		cout << endl;
 
-		unique_ptr<Tree> huffmanTree(BuildHuffmatTree(myVariantTable));
-        //unique_ptr<Tree> huffmanTree(BuildHuffmatTree(ft));
+		unique_ptr<Tree> huffmanTree(BuildHuffmatTree(workTable));
 
         cout << "Huffman tree:" << endl;
 		huffmanTree->PrintTree();
         cout << endl;
 
+        HuffmanCodeTable codeTable = huffmanTree->GetCodeTable();
         cout << "Huffman table:" << endl;
-		huffmanTree->PrintCodes();
+        PrintCodeTable(codeTable);
         cout << endl;
+
+        cout << "Compression: " <<  GetCompressionCoef(workTable, codeTable) << endl;
 
     } catch(runtime_error &e) {
         cout << e.what() << endl;

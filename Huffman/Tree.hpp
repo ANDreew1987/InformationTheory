@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 #include "Node.hpp"
 
@@ -11,6 +12,12 @@ using std::cout;
 using std::endl;
 using std::setw;
 using std::string;
+using std::vector;
+using std::pair;
+
+using std::make_pair;
+
+using HuffmanCodeTable = vector<pair<char,string>>;
 
 class Tree {
 private:
@@ -34,17 +41,17 @@ private:
 		}
 	}
 
-	void PrintCode(const Node *node, string str) const {
+	void BuildCodeTable(const Node *node, HuffmanCodeTable &table, string code) const {
 	    if (!node){
 	        return;
 	    }
 
 	    if (node->Data()){
-	        cout << node->Data() << ": " << str << endl;
+            table.push_back(make_pair(node->Data(), code));
 	    }
 
-        PrintCode(node->Left(), str + "0");
-        PrintCode(node->Right(), str + "1");
+        BuildCodeTable(node->Left(), table, code + "0");
+        BuildCodeTable(node->Right(), table, code + "1");
 	}
 
 	void Delete(Node *node) {
@@ -66,8 +73,10 @@ public:
 		PrintNode(m_Root, 0);
 	}
 
-	void PrintCodes() const {
-        PrintCode(m_Root, "");
+    HuffmanCodeTable GetCodeTable() const {
+        HuffmanCodeTable result;
+        BuildCodeTable(m_Root, result, "");
+        return result;
 	}
 };
 
