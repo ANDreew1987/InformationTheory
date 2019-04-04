@@ -37,12 +37,20 @@ FrequencyTable BuildFrequencyTable(ifstream &in)
 	while (in.read(&data, 1)) {
 		try {
 			result.at(data)++;
-		} catch(out_of_range) {
+		} catch(out_of_range &ex) {
 			result[data] = 1;
 		}
 	}
 	return result;
 }
+
+const FrequencyTable myVariantTable = {
+    { 'a', 52 }, { 'b',  7 }, { 'c', 18 }, { 'd',  14 }, { 'e', 56 },
+    { 'f', 12 }, { 'g', 18 }, { 'h', 33 }, { 'i',  28 }, { 'j',  1 },
+    { 'k',  5 }, { 'l', 43 }, { 'm', 10 }, { 'n',  35 }, { 'o', 28 },
+    { 'p',  7 }, { 'r', 34 }, { 's', 30 }, { 't',  62 }, { 'u', 10 },
+    { 'v',  8 }, { 'w',  8 }, { 'y',  9 }, { '_', 135 }, { ',',  1 }
+};
 
 void PrintFrequencyTable(const FrequencyTable &tbl) {
 	for (auto t : tbl) {
@@ -50,7 +58,7 @@ void PrintFrequencyTable(const FrequencyTable &tbl) {
 	}
 }
 
-Tree* BuildHuffmatTree(FrequencyTable &tbl) {
+Tree* BuildHuffmatTree(const FrequencyTable &tbl) {
 	HuffmanQueue q;
 	for (auto fr : tbl) {
 		q.push(new Node(fr.first, fr.second));
@@ -73,7 +81,7 @@ int main(int argc, char *argv[]) {
     ifstream inputFile;
 
     try{
-        if (argc != 2) {
+        /*if (argc != 2) {
             // Неправильное количество аргументов
             throw runtime_error(help);
         }
@@ -82,15 +90,17 @@ int main(int argc, char *argv[]) {
         if (!inputFile.is_open()) {
             // Не удалось открыть входной файл
             throw runtime_error(errOpenInputFile);
-        }
+        }*/
 
-		FrequencyTable ft = BuildFrequencyTable(inputFile);
-        inputFile.close();
+		//FrequencyTable ft = BuildFrequencyTable(inputFile);
+        //inputFile.close();
         cout << "Frequency table:" << endl;
-		PrintFrequencyTable(ft);
+		PrintFrequencyTable(myVariantTable);
+        //PrintFrequencyTable(ft);
 		cout << endl;
 
-		unique_ptr<Tree> huffmanTree(BuildHuffmatTree(ft));
+		unique_ptr<Tree> huffmanTree(BuildHuffmatTree(myVariantTable));
+        //unique_ptr<Tree> huffmanTree(BuildHuffmatTree(ft));
 
         cout << "Huffman tree:" << endl;
 		huffmanTree->PrintTree();
